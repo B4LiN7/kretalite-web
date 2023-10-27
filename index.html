@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>LKréta</title>
+  </head>
+  <body>
+    <div class="container">
+      <div class="row">
+        <div class="col-4">
+          <div class="card block">
+            <div class="card-header">
+              Tantárgykezelés
+            </div>
+            <div class="card-body">
+              <p class="card-text">Ad meg az új tantárgy nevét:</p>
+              <div class="row">
+                <div class="col">
+                  <input type="text" class="form-control" id="addSubjectText">
+                </div>
+                <div class="col-auto">
+                  <button class="btn btn-primary" id="addSubjectBtn">Hozzáadás</button>
+                </div>
+              </div>
+            </div>
+            <div class="card-body">
+              <p class="card-text">Melyik tantárgyat szeretnéd szerkeszteni?</p>
+              <div class="form-floating">
+                <select class="form-select" id="selectSubject">
+                  <!-- Code will manipulate this. -->
+                </select>
+                <label for="floatingSelect">Kiválasztott tantárgy:</label>
+              </div>
+            </div>
+          </div>
+          <div class="card block">
+            <div class="card-header">
+              Jegykezelés <span id="selectedSubject"></span>
+            </div>
+            <div class="card-body">
+              <p class="card-text">Új jegy értéke és súlya:</p>
+              <div class="row">
+                <div class="col">
+                  <div class="input-group">
+                    <span class="input-group-text">Érték</span>
+                    <input type="number" class="form-control" id="addGradeValue" min="1" max="5" step="1" >
+                    <span class="input-group-text">Súly</span>
+                    <input type="number" class="form-control" id="addGradeWeight" min="0.1" max="10" step="0.1" value="1" >
+                  </div>
+                </div>
+                <div class="col-auto">
+                  <button class="btn btn-primary" id="addGradeBtn">Hozzáadás</button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="card block">
+            <div class="card-header">
+              Statisztika
+            </div>
+            <ul class="list-group list-group-flush" id="grade">
+              <li class="list-group-item">An item</li>
+              <li class="list-group-item">A second item</li>
+              <li class="list-group-item">A third item</li>
+            </ul>
+          </div>
+        </div>
+        <div class="col-6" id="listSubjects">
+          <!-- Code will manipulate this. -->
+        </div>
+      </div>
+    </div>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>
