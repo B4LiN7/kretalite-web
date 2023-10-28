@@ -135,4 +135,32 @@ document.addEventListener("DOMContentLoaded", () => {
         } 
     });
 
+    document.getElementById("downloadJson")?.addEventListener("click", () => { 
+        const json = subjects.toJson();
+        const blob = new Blob([json], { type: "application/json" });
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement("a");
+        link.href = url;
+        link.download = Date.now().toString() + ".json";
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        URL.revokeObjectURL(url);
+    });
+
+    document.getElementById("uploadJson")?.addEventListener("click", () => { 
+        const file = (document.getElementById("uploadJsonInput") as HTMLInputElement).files?.item(0);
+        if (file) {
+            const reader = new FileReader();
+            reader.readAsText(file);
+            reader.onload = () => {
+                subjects.fromJson(reader.result as string);
+                drawSelect();
+                drawList();
+                drawStatistics();
+                drawSelectedSubject();
+            }
+        }
+    });
+
 });
