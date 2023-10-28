@@ -4,12 +4,17 @@ export class Subject {
     private static usedNames: string[] = [];
 
     constructor(name: string) {
-        if (Subject.usedNames.includes(name)) {
+        name = name.trim();
+        if (Subject.usedNames.includes(name) || name == "") {
             throw new Error(`Subject name "${name}" is already used.`);
         }
         this.name = name;
         this.grades = [];
         Subject.usedNames.push(name);
+    }
+
+    removeUsedName(name: string) { 
+        Subject.usedNames.splice(Subject.usedNames.indexOf(name), 1);
     }
 
     // Getters
@@ -25,6 +30,19 @@ export class Subject {
         return this.grades[index];
     }
 
+    // Getters for statistics
+    getAverage(): number {
+        let average = 0;
+        this.grades.forEach(grade => {
+            average += grade.getValue() * grade.getWeight();
+        });
+        let totalWeight = 0;
+        this.grades.forEach(grade => {
+            totalWeight += grade.getWeight();
+        });
+        return average / totalWeight;
+    }
+
     // Manage grades
     addGrade(value: number, weight: number) {
         this.grades.push(new Grade(value, weight));
@@ -36,11 +54,20 @@ export class Subject {
 }
 
 export class Grade {
-    value: number;
-    weight: number;
+    private value: number;
+    private weight: number;
 
     constructor(value: number, weight: number) {
         this.value = value;
         this.weight = weight;
+    }
+
+    // Getters
+    getValue(): number {
+        return this.value;
+    }
+
+    getWeight(): number {
+        return this.weight;
     }
 }

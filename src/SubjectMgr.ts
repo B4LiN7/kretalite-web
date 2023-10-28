@@ -20,12 +20,18 @@ export class SubjectMgr {
         return this.subjects[subjectindex].getGrades()[gradeIndex];
     }
 
+    // Getters for statistics
+    getAverageBySubjectId(index: number): number {
+        return this.subjects[index].getAverage();
+    }
+
     // Manage subjects
     addSubject(name: string) {
         this.subjects.push(new Subject(name));
     }
 
     removeSubjectById(index: number) {
+        this.subjects[index].removeUsedName(this.subjects[index].getName());
         this.subjects.splice(index, 1);
     }
 
@@ -36,5 +42,22 @@ export class SubjectMgr {
 
     removeGradeById(subjectindex: number, gradeIndex: number) {
         this.subjects[subjectindex].removeGradeById(gradeIndex);
+    }
+
+    // Json management
+    toJson(): string {
+        return JSON.stringify(this.subjects);
+    }
+
+    fromJson(json: string) {
+        this.subjects = [];
+        const subjectsJson = JSON.parse(json);
+        subjectsJson.forEach((subjectJson: any) => {
+            const subject = new Subject(subjectJson.name);
+            subjectJson.grades.forEach((gradeJson: any) => {
+                subject.addGrade(gradeJson.value, gradeJson.weight);
+            });
+            this.subjects.push(subject);
+        });
     }
 }
