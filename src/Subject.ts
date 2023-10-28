@@ -5,8 +5,10 @@ export class Subject {
 
     constructor(name: string) {
         name = name.trim();
-        if (Subject.usedNames.includes(name) || name == "") {
-            throw new Error(`Subject name "${name}" is already used.`);
+        if (Subject.usedNames.includes(name)) {
+            throw new Error(`A(z) "${name}" név már foglalt.`);
+        } else if (name == "") {
+            throw new Error("A név nem lehet üres.");
         }
         this.name = name;
         this.grades = [];
@@ -48,6 +50,11 @@ export class Subject {
         this.grades.push(new Grade(value, weight));
     }
 
+    removeGrade(grade: Grade) {
+        const index = this.grades.indexOf(grade);
+        this.removeGradeById(index);
+    }
+
     removeGradeById(index: number) {
         this.grades.splice(index, 1);
     }
@@ -57,7 +64,21 @@ export class Grade {
     private value: number;
     private weight: number;
 
+    private static minValue = 1;
+    private static maxValue = 5;
+    private static minWeight = 0.01;
+    private static maxWeight = 10;
+
     constructor(value: number, weight: number) {
+        if (isNaN(value) || isNaN(weight)) {
+            throw new Error("Az értéknek és a súlynak számnak kell lennie.");
+        }
+        else if (value < Grade.minValue || value > Grade.maxValue) {
+            throw new Error(`A jegy értéknek ${Grade.minValue} és ${Grade.maxValue} között kell lennie.`);
+        }
+        else if (weight < Grade.minWeight || weight > Grade.maxWeight) {
+            throw new Error(`A jegy súlyának ${Grade.minWeight} és ${Grade.maxWeight} között kell lennie.`);
+        }
         this.value = value;
         this.weight = weight;
     }

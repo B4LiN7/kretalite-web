@@ -27,7 +27,7 @@ function drawList(): void {
         button.classList.add("btn", "btn-danger", "btn-sm");
         button.innerText = "Törlés";
         button.addEventListener("click", () => {
-            subjects.removeSubjectById(subjects.getSubjects().indexOf(subject));
+            subjects.removeSubject(subject);
             drawSelect();
             drawList();
             drawSelectedSubject();
@@ -53,7 +53,7 @@ function drawList(): void {
             button2.classList.add("btn", "btn-danger", "btn-sm");
             button2.innerText = "Törlés";
             button2.addEventListener("click", () => { 
-                subject.removeGradeById(subject.getGrades().indexOf(grade));
+                subject.removeGrade(grade);
                 drawList();
                 drawStatistics();
             });

@@ -29,6 +29,11 @@ export class SubjectMgr {
     addSubject(name: string) {
         this.subjects.push(new Subject(name));
     }
+    
+    removeSubject(subject: Subject) {
+        const index = this.subjects.indexOf(subject);
+        this.removeSubjectById(index);
+    }
 
     removeSubjectById(index: number) {
         this.subjects[index].removeUsedName(this.subjects[index].getName());
