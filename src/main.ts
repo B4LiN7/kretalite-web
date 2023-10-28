@@ -136,16 +136,21 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     document.getElementById("downloadJson")?.addEventListener("click", () => { 
-        const json = subjects.toJson();
-        const blob = new Blob([json], { type: "application/json" });
-        const url = URL.createObjectURL(blob);
-        const link = document.createElement("a");
-        link.href = url;
-        link.download = Date.now().toString() + ".json";
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-        URL.revokeObjectURL(url);
+        if (subjects.getSubjects().length > 0) { 
+            const json = subjects.toJson();
+            const blob = new Blob([json], { type: "application/json" });
+            const url = URL.createObjectURL(blob);
+            const link = document.createElement("a");
+            link.href = url;
+            link.download = Date.now().toString() + ".json";
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            URL.revokeObjectURL(url);
+        } else {
+            throw new Error("Nincs tantárgy!");
+        }
+
     });
 
     document.getElementById("uploadJson")?.addEventListener("click", () => { 
@@ -160,6 +165,8 @@ document.addEventListener("DOMContentLoaded", () => {
                 drawStatistics();
                 drawSelectedSubject();
             }
+        } else {
+            throw new Error("Nincs kiválasztva fájl!");
         }
     });
 
