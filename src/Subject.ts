@@ -1,7 +1,7 @@
 export class Subject {
-    name: string;
-    grades: Grade[];
-    static usedNames: string[] = [];
+    private name: string;
+    private grades: Grade[];
+    private static usedNames: string[] = [];
 
     constructor(name: string) {
         if (Subject.usedNames.includes(name)) {
@@ -12,6 +12,20 @@ export class Subject {
         Subject.usedNames.push(name);
     }
 
+    // Getters
+    getName(): string {
+        return this.name;
+    }
+
+    getGrades(): Grade[] {
+        return this.grades;
+    }
+
+    getGradeById(index: number): Grade | undefined {
+        return this.grades[index];
+    }
+
+    // Manage grades
     addGrade(value: number, weight: number) {
         this.grades.push(new Grade(value, weight));
     }
@@ -21,7 +35,7 @@ export class Subject {
     }
 }
 
-class Grade {
+export class Grade {
     value: number;
     weight: number;
 

@@ -1,30 +1,30 @@
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.min.js";
 import "./style.css";
-import { Subject } from "./Subject.ts";
+import { SubjectMgr } from "./SubjectMgr.ts";
 
-let subjects: Subject[] = [];
-const selectedSubjectIndex = (): number => { 
+const subjects: SubjectMgr = new SubjectMgr();
+function selectedSubjectIndex(): number {
     return (document.getElementById("selectSubject") as HTMLSelectElement).selectedIndex;
-};
+}
 
 function drawList(): void {
     const listSubjects = document.getElementById("listSubjects") as HTMLElement;
     listSubjects.innerHTML = "";
 
-    subjects.forEach(subject => {
+    subjects.getSubjects().forEach(subject => {
         const card = document.createElement("div");
         card.classList.add("card", "block");
 
         const cardHeader = document.createElement("div");
         cardHeader.classList.add("card-header", "d-flex", "justify-content-between", "align-items-center");
-        cardHeader.innerText = subject.name;
+        cardHeader.innerText = subject.getName();
 
         const button = document.createElement("button");
         button.classList.add("btn", "btn-danger", "btn-sm");
         button.innerText = "Delete";
         button.addEventListener("click", () => {
-            subjects.splice(subjects.indexOf(subject), 1);
+            subjects.removeSubjectById(subjects.getSubjects().indexOf(subject));
             drawSelect();
             drawList();
         });
@@ -32,7 +32,7 @@ function drawList(): void {
         cardHeader.appendChild(button);
         card.appendChild(cardHeader);
 
-        subject.grades.forEach(grade => {
+        subject.getGrades().forEach(grade => {
             const listGroup = document.createElement("ul");
             listGroup.classList.add("list-group", "list-group-flush");
     
@@ -44,7 +44,7 @@ function drawList(): void {
             button2.classList.add("btn", "btn-danger", "btn-sm");
             button2.innerText = "Delete";
             button2.addEventListener("click", () => { 
-                subject.removeGradeById(subject.grades.indexOf(grade));
+                subject.removeGradeById(subject.getGrades().indexOf(grade));
                 drawList();
             });
     
@@ -62,37 +62,36 @@ function drawSelect(): void {
 
     selectSubject.innerHTML = "";
 
-    subjects.forEach((subject: Subject) => {
+    subjects.getSubjects().forEach((subject) => {
         const option = document.createElement("option");
-        option.value = subject.name;
-        option.innerText = subject.name;
+        option.value = subject.getName();
+        option.innerText = subject.getName();
         selectSubject.appendChild(option);
     });
 
-    if (subjects.length == 1) { 
+    if (subjects.getSubjects().length == 1) { 
         showSelectedSubject();
     }
 }
 
-
-
 function showSelectedSubject(): void {
     const selectedSubject = (document.getElementById("selectedSubject") as HTMLElement)
-    if (subjects.length == 0) {
+    if (subjects.getSubjects().length == 0) {
         selectedSubject.innerText = "";
     }
     else {
-        const text: string = "(" + subjects[selectedSubjectIndex()].name + ")";
+        const text: string = "(" + subjects.getSubjects()[selectedSubjectIndex()].getName() + ")";
         selectedSubject.innerText = text;
     }
 }
 
-document.addEventListener("DOMContentLoaded", () => { 
+document.addEventListener("DOMContentLoaded", () => {
 
     document.getElementById("addSubjectBtn")?.addEventListener("click", () => {
         const subject = (document.getElementById("addSubjectText") as HTMLInputElement).value.toString();
-        subjects.push(new Subject(subject));
+        subjects.addSubject(subject);
         drawSelect();
+        drawList();
     });
 
     document.getElementById("selectSubject")?.addEventListener("change", () => { 
@@ -103,7 +102,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const value = parseInt((document.getElementById("addGradeValue") as HTMLInputElement).value.toString());
         const weight = parseFloat((document.getElementById("addGradeWeight") as HTMLInputElement).value.toString());
         if (selectedSubjectIndex() != -1) {
-            subjects[selectedSubjectIndex()].addGrade(value, weight);
+            subjects.addGradeById(selectedSubjectIndex(), value, weight);
             drawList();
         }
         else {
