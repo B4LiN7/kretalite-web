@@ -49,6 +49,10 @@ export class SubjectMgr {
         this.subjects[subjectindex].removeGradeById(gradeIndex);
     }
 
+    editGradeById(subjectindex: number, gradeIndex: number, value: number, weight: number) {
+        this.subjects[subjectindex].editGradeById(gradeIndex, value, weight);
+    }
+
     // Json management
     toJson(): string {
         return JSON.stringify(this.subjects);

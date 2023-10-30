@@ -6,9 +6,9 @@ export class Subject {
     constructor(name: string) {
         name = name.trim();
         if (Subject.usedNames.includes(name)) {
-            throw new Error(`A(z) "${name}" név már foglalt.`);
+            throw new Error(`A(z) "${name}" tantárgy név már foglalt.`);
         } else if (name == "") {
-            throw new Error("A név nem lehet üres.");
+            throw new Error(`A tantárgy név nem lehet üres.`);
         }
         this.name = name;
         this.grades = [];
@@ -34,15 +34,15 @@ export class Subject {
 
     // Getters for statistics
     getAverage(): number {
-        let average = 0;
+        let totalVW = 0;
         this.grades.forEach(grade => {
-            average += grade.getValue() * grade.getWeight();
+            totalVW += grade.getValue() * grade.getWeight();
         });
         let totalWeight = 0;
         this.grades.forEach(grade => {
             totalWeight += grade.getWeight();
         });
-        return average / totalWeight;
+        return totalVW / totalWeight;
     }
 
     // Manage grades
@@ -58,11 +58,22 @@ export class Subject {
     removeGradeById(index: number) {
         this.grades.splice(index, 1);
     }
+
+    editGrade(grade: Grade, value: number, weight: number) {
+        const index = this.grades.indexOf(grade);
+        this.editGradeById(index, value, weight);
+    }
+
+    editGradeById(index: number, value: number, weight: number) {
+        this.grades[index].editGrade(value, weight);
+    }
 }
 
 export class Grade {
     private value: number;
     private weight: number;
+    private addDate: Date;
+    private editDate: Date;
 
     private static minValue = 1;
     private static maxValue = 5;
@@ -71,7 +82,7 @@ export class Grade {
 
     constructor(value: number, weight: number) {
         if (isNaN(value) || isNaN(weight)) {
-            throw new Error("Az értéknek és a súlynak számnak kell lennie.");
+            throw new Error(`Az értéknek és/vagy a súlynak számnak kell lennie.`);
         }
         else if (value < Grade.minValue || value > Grade.maxValue) {
             throw new Error(`A jegy értéknek ${Grade.minValue} és ${Grade.maxValue} között kell lennie.`);
@@ -81,6 +92,8 @@ export class Grade {
         }
         this.value = value;
         this.weight = weight;
+        this.addDate = new Date();
+        this.editDate = new Date();
     }
 
     // Getters
@@ -90,5 +103,20 @@ export class Grade {
 
     getWeight(): number {
         return this.weight;
+    }
+
+    getAddDate(): Date {
+        return this.addDate;
+    }
+
+    getEditDate(): Date {
+        return this.editDate;
+    }
+
+    // Edit grade
+    editGrade(value: number, weight: number) {
+        this.value = value;
+        this.weight = weight;
+        this.editDate = new Date();
     }
 }

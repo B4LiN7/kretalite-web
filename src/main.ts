@@ -97,6 +97,7 @@ function drawSelectedSubject(): void {
     }
 }
 
+/* Old version of drawStatistics(). Keep for reference.
 function drawStatistics(): void {
     const listStatistics = (document.getElementById("listStatistics") as HTMLElement)
     listStatistics.innerHTML = "";
@@ -106,6 +107,21 @@ function drawStatistics(): void {
         listGroupItem.classList.add("list-group-item", "d-flex", "justify-content-between", "align-items-center");
         listGroupItem.innerText = subject.getName() + " (" + subject.getAverage() + ")";
         listStatistics.appendChild(listGroupItem);
+    });
+}
+*/
+
+function drawStatistics(): void {
+    const listStatistics = (document.getElementById("listStatistics") as HTMLElement)
+    listStatistics.innerHTML = "";
+
+    subjects.getSubjects().forEach(subject => {
+        listStatistics.innerHTML += `
+        <tr>
+            <td>${subject.getName()}</td>
+            <td>${subject.getAverage()}</td>
+        </tr>
+        `;
     });
 }
 
@@ -169,5 +185,7 @@ document.addEventListener("DOMContentLoaded", () => {
             throw new Error("Nincs kiválasztva fájl!");
         }
     });
+
+    document.querySelector('body')?.setAttribute('data-bs-theme', 'dark');
 
 });

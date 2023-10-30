@@ -3,13 +3,13 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>LKréta</title>
+    <title>KretaLite</title>
     <link rel="shortcut icon" href="/KretaLite.png" type="image/x-icon">
   </head>
-  <body>
+  <body">
     <div class="container">
       <div class="row">
-        <div class="col-6">
+        <div class="col-md-12 col-lg-6">
           <div class="card block">
             <div class="card-header">
               Tantárgykezelés
@@ -17,11 +17,11 @@
             <div class="card-body">
               <p class="card-text">Ad meg az új tantárgy nevét:</p>
               <div class="row">
-                <div class="col">
+                <div class="col-12 col-md">
                   <input type="text" class="form-control" id="addSubjectText">
                 </div>
                 <div class="col-auto">
-                  <button class="btn btn-primary" id="addSubjectBtn">Hozzáadás</button>
+                  <button class="btn btn-outline-primary" id="addSubjectBtn">Hozzáadás</button>
                 </div>
               </div>
             </div>
@@ -42,7 +42,7 @@
             <div class="card-body">
               <p class="card-text">Új jegy értéke és súlya:</p>
               <div class="row">
-                <div class="col">
+                <div class="col-12 col-md">
                   <div class="input-group">
                     <span class="input-group-text">Érték</span>
                     <input type="number" class="form-control" id="addGradeValue" min="1" max="5" step="1" value="1">
@@ -51,7 +51,7 @@
                   </div>
                 </div>
                 <div class="col-auto">
-                  <button class="btn btn-primary" id="addGradeBtn">Hozzáadás</button>
+                  <button class="btn btn-outline-primary" id="addGradeBtn">Hozzáadás</button>
                 </div>
               </div>
             </div>
@@ -60,9 +60,17 @@
             <div class="card-header">
               Statisztika
             </div>
-            <ul class="list-group list-group-flush" id="listStatistics">
-              <!-- Code will manipulate this. -->
-            </ul>
+            <table class="table">
+              <thead>
+                <tr>
+                  <th scope="col">Tantárgy</th>
+                  <th scope="col">Átlag</th>
+                </tr>
+              </thead>
+              <tbody id="listStatistics">
+                <!-- Code will manipulate this. -->
+              </tbody>
+            </table>
           </div>
           <div class="card block">
             <div class="card-header">
@@ -70,21 +78,25 @@
             </div>
             <div class="card-body">
               <div class="row">
-                <div class="col">
+                <div class="col-12 col-md">
                   <input type="file" class="form-control" id="uploadJsonInput" accept=".json">
                 </div>
-                <div class="col-auto">
-                  <button class="btn btn-primary" id="uploadJson">Feltöltés</button>
-                  <button class="btn btn-primary" id="downloadJson">Letöltés</button>
+                <div class="col-auto btn-group" role="group">
+                  <button class="btn btn-outline-primary" id="uploadJson">Feltöltés</button>
+                  <button class="btn btn-outline-primary" id="downloadJson">Letöltés</button>
                 </div>
               </div>
             </div>
           </div>
         </div>
-        <div class="col-6" id="listSubjects">
+        <div class="col-md-12 col-lg-6" id="listSubjects">
           <!-- Code will manipulate this. -->
         </div>
       </div>
+
+      <!-- https://getbootstrap.com/docs/5.3/components/modal/ -->
+      
+
     </div>
     <script type="module" src="/src/main.ts"></script>
   </body>
