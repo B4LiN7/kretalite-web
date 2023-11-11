@@ -23,10 +23,10 @@ function drawList(): void {
         cardHeader.innerText = subject.getName();
 
         // Card header delete button
-        const button = document.createElement("button");
-        button.classList.add("btn", "btn-danger", "btn-sm");
-        button.innerText = "Törlés";
-        button.addEventListener("click", () => {
+        const btnDeleteSubject = document.createElement("button");
+        btnDeleteSubject.classList.add("btn", "btn-outline-danger", "btn-sm");
+        btnDeleteSubject.innerText = "Törlés";
+        btnDeleteSubject.addEventListener("click", () => {
             subjects.removeSubject(subject);
             drawSelect();
             drawList();
@@ -35,7 +35,7 @@ function drawList(): void {
         });
 
         // Append button to header and header to card
-        cardHeader.appendChild(button);
+        cardHeader.appendChild(btnDeleteSubject);
         card.appendChild(cardHeader);
 
         // Create list group for grades
@@ -46,20 +46,39 @@ function drawList(): void {
             // Create list group item for grade
             const listGroupItem = document.createElement("li");
             listGroupItem.classList.add("list-group-item", "d-flex", "justify-content-between", "align-items-center");
-            listGroupItem.innerText = grade.getValue() + " (" + grade.getWeight() * 100 + "%)";
+            listGroupItem.innerText = `${grade.getValue()} (${Math.round(grade.getWeight() * 100)}%) [${grade.getEditDateLocale()}]`;
     
+            const btnContainer = document.createElement("div");
+            btnContainer.classList.add("btn-group");
+
             // Create delete button for grade
-            const button2 = document.createElement("button");
-            button2.classList.add("btn", "btn-danger", "btn-sm");
-            button2.innerText = "Törlés";
-            button2.addEventListener("click", () => { 
+            const btnDeleteGrade = document.createElement("button");
+            btnDeleteGrade.classList.add("btn", "btn-outline-danger", "btn-sm");
+            btnDeleteGrade.innerText = "Törlés";
+            btnDeleteGrade.addEventListener("click", () => { 
                 subject.removeGrade(grade);
                 drawList();
                 drawStatistics();
             });
+
+            // Create edit button for grade
+            const btnEditGrade = document.createElement("button");
+            btnEditGrade.classList.add("btn", "btn-outline-primary", "btn-sm");
+            btnEditGrade.innerText = "Szerkesztés";
+            btnEditGrade.addEventListener("click", () => { 
+                /*const value = parseInt((document.getElementById("editGradeValue") as HTMLInputElement).value.toString());
+                const weight = parseFloat((document.getElementById("editGradeWeight") as HTMLInputElement).value.toString());
+                subject.editGrade(grade, value, weight);
+                drawList();
+                drawStatistics();*/
+                alert("Ez a funkció még nem elérhető!");
+            });
+
+            btnContainer.appendChild(btnEditGrade);
+            btnContainer.appendChild(btnDeleteGrade);
     
             // Append delete button to list group item and item to list group
-            listGroupItem.appendChild(button2);
+            listGroupItem.appendChild(btnContainer);
             listGroup.appendChild(listGroupItem);
         });
 

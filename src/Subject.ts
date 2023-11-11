@@ -50,6 +50,10 @@ export class Subject {
         this.grades.push(new Grade(value, weight));
     }
 
+    addGrade2(grade: Grade) {
+        this.grades.push(grade);
+    }
+
     removeGrade(grade: Grade) {
         const index = this.grades.indexOf(grade);
         this.removeGradeById(index);
@@ -111,6 +115,27 @@ export class Grade {
 
     getEditDate(): Date {
         return this.editDate;
+    }
+
+    getEditDateLocale(): string {
+        return this.editDate.toLocaleString();
+    }
+
+    // Setters
+    setValue(value: number) {
+        this.value = value;
+    }
+
+    setWeight(weight: number) {
+        this.weight = weight;
+    }
+
+    setAddDate(date: string) {
+        this.addDate = new Date(date);
+    }
+
+    setEditDate(date: string) {
+        this.editDate = new Date(date);
     }
 
     // Edit grade

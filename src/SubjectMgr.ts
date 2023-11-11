@@ -64,7 +64,10 @@ export class SubjectMgr {
         subjectsJson.forEach((subjectJson: any) => {
             const subject = new Subject(subjectJson.name);
             subjectJson.grades.forEach((gradeJson: any) => {
-                subject.addGrade(gradeJson.value, gradeJson.weight);
+                const grade = new Grade(gradeJson.value, gradeJson.weight);
+                grade.setAddDate(gradeJson.addDate);
+                grade.setEditDate(gradeJson.editDate);
+                subject.addGrade2(grade);
             });
             this.subjects.push(subject);
         });
